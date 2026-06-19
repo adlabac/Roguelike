@@ -23,6 +23,16 @@ public class BoardManager : MonoBehaviour
         return grid.GetCellCenterWorld((Vector3Int)cellIndex);
     }
 
+    public CellData GetCellData(Vector2Int cellIndex)    // Metoda koja vraća podatke za traženo polje, ukoliko su koordinate unutar zatadih granica
+    {
+        if(cellIndex.x < 0 || cellIndex.x >= width || cellIndex.y < 0 || cellIndex.y >= height)    // Da li su koordinate unutar zadatih granica
+        {
+            return null;    // Ako su zadate koordinate van table, vrati null
+        }
+
+        return boardData[cellIndex.x, cellIndex.y];    // Vrati podatke za traženu ćeliju
+    }
+
     void Start()
     {
         tilemap = GetComponentInChildren<Tilemap>();    // Preuzimanje Tilemap komponente iz "djeteta" komponente
