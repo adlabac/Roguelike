@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
             if (cellData != null && cellData.passable)    // Da li ćelija postoji i da li se na nju može stati?
             {
+                GameManager.Instance.turnManager.Tick();    // Evidentiraj potez igrača
                 MoveTo(newCell);    // Pozicioniraj igrača u novu ćeliju
             }
         }

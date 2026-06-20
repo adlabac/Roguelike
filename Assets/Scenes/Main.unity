@@ -192,7 +192,6 @@ MonoBehaviour:
   wallTiles:
   - {fileID: 11400000, guid: 5b6d772f9a1144c449a36259bc9c5ed3, type: 2}
   - {fileID: 11400000, guid: ff6418a0da9836d43b9022aa9f21996f, type: 2}
-  Player: {fileID: 1638778942}
 --- !u!1 &599710937
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +319,52 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &611225084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 611225085}
+  - component: {fileID: 611225086}
+  m_Layer: 0
+  m_Name: 'GameManager '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &611225085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611225084}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &611225086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611225084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd9be5710e3e1734281d4013894e7649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  boardManager: {fileID: 395494733}
+  playerController: {fileID: 1638778942}
 --- !u!1 &1393387610
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,3 +613,4 @@ SceneRoots:
   - {fileID: 1393387613}
   - {fileID: 395494732}
   - {fileID: 1638778941}
+  - {fileID: 611225085}

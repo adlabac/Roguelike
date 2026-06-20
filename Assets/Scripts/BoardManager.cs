@@ -12,7 +12,6 @@ public class BoardManager : MonoBehaviour
     public int height;    // Broj polja po visini
     public Tile[] groundTiles;    // Sprajtovi pozadine
     public Tile[] wallTiles;    // Sprajtovi zidova
-    public PlayerController Player;    // Referenca ka PlayerController skripti
 
     private Tilemap tilemap;    // Referenca ka tilemapi
     private Grid grid;    // Referenca ka gridu tilemape
@@ -33,7 +32,7 @@ public class BoardManager : MonoBehaviour
         return boardData[cellIndex.x, cellIndex.y];    // Vrati podatke za traženu ćeliju
     }
 
-    void Start()
+    public void Init()
     {
         tilemap = GetComponentInChildren<Tilemap>();    // Preuzimanje Tilemap komponente iz "djeteta" komponente
         grid = GetComponentInChildren<Grid>();    // Preuzimanje Grid komponente iz "djeteta" komponente
@@ -61,7 +60,5 @@ public class BoardManager : MonoBehaviour
                 tilemap.SetTile(new Vector3Int(x, y, 0), tile);    // Dodijeli sprajt odgovarajućem polju na koordinati (x, y)
             }
         }
-
-        Player.Spawn(this, new Vector2Int(1, 1));    // Pozicioniraj lika u sredinu ćelije (1, 1)
     }
 }
