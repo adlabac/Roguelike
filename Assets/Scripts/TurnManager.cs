@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class TurnManager
 {
+    public event System.Action OnTick;    // Događaj koji se ponavlja za svaki potez
+
     private int turnCount;
 
     public TurnManager()    // Constructor klase
@@ -13,6 +15,7 @@ public class TurnManager
     {
         turnCount++;    // Uvećaj broj poteza
         Debug.Log("Broj poteza: " + turnCount);    // Prikaži broj poteza u konzoli
+        OnTick?.Invoke();    // Pozovi sve registrovane OnTick događaje
     }
 
 }
