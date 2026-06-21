@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;    // Referenca ka PlayerController skripti
 
     public TurnManager turnManager { get; private set; }    // Referenca ka TurnManeger skripti
+    public UIDocument UI;
+
+    private Label foodLabel;
 
     private void Awake()    // Singleton pattern GameManager skripte
     {
@@ -24,6 +28,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        foodLabel = UI.rootVisualElement.Q<Label>("FoodLabel");
+        foodLabel.text = "Hrana: " + foodAmount;
+
         turnManager = new TurnManager();    // Kreiraj TurnManager instance
         turnManager.OnTick += OnTurn;    // Registracija na OnTick događaj TurnManager klase
 
@@ -34,6 +41,6 @@ public class GameManager : MonoBehaviour
     void OnTurn()    // Metoda koju obrađuje OnTick događaj TurnManager metode
     {
         foodAmount--;    // Umanji koli;inu hrane
-        Debug.Log("Preostalo hrane: " + foodAmount);    // Prikaži preostalu količinu hrane
+        foodLabel.text = "Hrana: " + foodAmount;    // Prikaži preostalu količinu hrane
     }
 }
