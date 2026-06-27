@@ -52,6 +52,11 @@ public class PlayerController : MonoBehaviour
             {
                 GameManager.Instance.turnManager.Tick();    // Evidentiraj potez igrača
                 MoveTo(newCell);    // Pozicioniraj igrača u novu ćeliju
+
+                if (cellData.containedObject != null)    // Da li ćelija sadrži neki objekat
+                {
+                    cellData.containedObject.PlayerEntered();    // Pozovi metod kako bi se odradio događaj
+                }
             }
         }
     }

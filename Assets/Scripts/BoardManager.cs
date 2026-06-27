@@ -7,14 +7,14 @@ public class BoardManager : MonoBehaviour
     public class CellData    // Klasa koja sadrži podatke o jednom polju
     {
         public bool passable;    // Da li na polje može stati igrač
-        public GameObject containedObject;    // Objekat koji se nalazi na polju
+        public CellObject containedObject;    // Objekat koji se nalazi na polju
     }
 
     public int width;    // Broj polja po širini
     public int height;    // Broj polja po visini
     public Tile[] groundTiles;    // Sprajtovi pozadine
     public Tile[] wallTiles;    // Sprajtovi zidova
-    public GameObject[] foodPrefabs;    // Prefabi hrane
+    public FoodObject[] foodPrefabs;    // Prefabi hrane
 
     private Tilemap tilemap;    // Referenca ka tilemapi
     private Grid grid;    // Referenca ka gridu tilemape
@@ -46,7 +46,7 @@ public class BoardManager : MonoBehaviour
             emptyCells.RemoveAt(randomIndex);    // Ukloni izabranu ćeliju iz liste slobodnih
 
             CellData data = GetCellData(coord);    // Preuzmi podatke o ćeliji
-            GameObject newFood = Instantiate(foodPrefabs[Random.Range(0, foodPrefabs.Length)]);    // Kreiraj novi objekat na osnovu slučajno izabranog prefaba
+            FoodObject newFood = Instantiate(foodPrefabs[Random.Range(0, foodPrefabs.Length)]);    // Kreiraj novi objekat na osnovu slučajno izabranog prefaba
             newFood.transform.position = CellToWorld(coord);    // Pozicioniraj objekat u sredinu ćelije
             data.containedObject = newFood;    // Dodaj objekat podacima za datu ćeliju
         }
