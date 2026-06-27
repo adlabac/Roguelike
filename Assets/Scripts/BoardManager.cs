@@ -37,6 +37,11 @@ public class BoardManager : MonoBehaviour
         return boardData[cellIndex.x, cellIndex.y];    // Vrati podatke za traženu ćeliju
     }
 
+    public Tile GetCellTile(Vector2Int cellIndex)    // Metoda koja vraća sprajt traženog polja
+    {
+        return tilemap.GetTile<Tile>(new Vector3Int(cellIndex.x, cellIndex.y, 0));    // Vrati sprajt polja na datoj koordinati
+    }
+
     public void SetCellTile(Vector2Int cellIndex, Tile tile)    // Metoda koja postavlja/mijenja sprajt za dato polje
     {
         tilemap.SetTile(new Vector3Int(cellIndex.x, cellIndex.y, 0), tile);    // Dodijeli sprajt polju na datoj koordinati
