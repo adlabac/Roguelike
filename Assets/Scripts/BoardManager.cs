@@ -1,21 +1,25 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour
 {
     public class CellData    // Klasa koja sadrži podatke o jednom polju
     {
-        public bool passable;
+        public bool passable;    // Da li na polje može stati igrač
+        public GameObject containedObject;    // Objekat koji se nalazi na polju
     }
 
     public int width;    // Broj polja po širini
     public int height;    // Broj polja po visini
     public Tile[] groundTiles;    // Sprajtovi pozadine
     public Tile[] wallTiles;    // Sprajtovi zidova
+    public GameObject[] foodPrefabs;    // Prefabi hrane
 
     private Tilemap tilemap;    // Referenca ka tilemapi
     private Grid grid;    // Referenca ka gridu tilemape
     private CellData[,] boardData;    // Dvodimenzionalni niz koji sadrži podatke o svim poljima
+    private List<Vector2Int> emptyCells;    // Lista praznih ćelija
 
     public Vector3 CellToWorld(Vector2Int cellIndex)    // Metoda koja vraća poziciju sredine polja na osnovu broja njegove vrste i kolone
     {
@@ -32,10 +36,27 @@ public class BoardManager : MonoBehaviour
         return boardData[cellIndex.x, cellIndex.y];    // Vrati podatke za traženu ćeliju
     }
 
+    void GenerateFood()    // Generisanje i raspoređivanje hrane
+    {
+        int foodCount = 5;    // Količina hrane koju treba rasporediti
+        for (int i = 0; i < foodCount; i++)    // Ponoviti generisanje željeni broj puta
+        {
+            int randomIndex = Random.Range(0, emptyCells.Count);    // Izaberi slučajno neku od slobodnih ćelija
+            Vector2Int coord = emptyCells[randomIndex];    // Uzmi koordinatu iz izabrane ćelije
+            emptyCells.RemoveAt(randomIndex);    // Ukloni izabranu ćeliju iz liste slobodnih
+
+            CellData data = GetCellData(coord);    // Preuzmi podatke o ćeliji
+            GameObject newFood = Instantiate(foodPrefabs[Random.Range(0, foodPrefabs.Length)]);    // Kreiraj novi objekat na osnovu slučajno izabranog prefaba
+            newFood.transform.position = CellToWorld(coord);    // Pozicioniraj objekat u sredinu ćelije
+            data.containedObject = newFood;    // Dodaj objekat podacima za datu ćeliju
+        }
+    }
+
     public void Init()
     {
         tilemap = GetComponentInChildren<Tilemap>();    // Preuzimanje Tilemap komponente iz "djeteta" komponente
         grid = GetComponentInChildren<Grid>();    // Preuzimanje Grid komponente iz "djeteta" komponente
+        emptyCells = new List<Vector2Int>();    // Kreiraj praznu listu pozicija praznih ćelija
 
         boardData = new CellData[width, height];    // Kreiranje dvodimenziobnanog niza
 
@@ -55,10 +76,14 @@ public class BoardManager : MonoBehaviour
                 {
                     tile = groundTiles[Random.Range(0, groundTiles.Length)];    // Izabheri slučajni sprajt zida
                     boardData[x, y].passable = true;    // Označi polje kao neprolazno
+                    emptyCells.Add(new Vector2Int(x, y));
                 }
 
                 tilemap.SetTile(new Vector3Int(x, y, 0), tile);    // Dodijeli sprajt odgovarajućem polju na koordinati (x, y)
             }
         }
+
+        emptyCells.Remove(new Vector2Int(1, 1));
+        GenerateFood();
     }
 }

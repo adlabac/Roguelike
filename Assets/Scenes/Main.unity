@@ -247,6 +247,9 @@ MonoBehaviour:
   wallTiles:
   - {fileID: 11400000, guid: 5b6d772f9a1144c449a36259bc9c5ed3, type: 2}
   - {fileID: 11400000, guid: ff6418a0da9836d43b9022aa9f21996f, type: 2}
+  foodPrefabs:
+  - {fileID: 1788470556778589084, guid: d2f2dd5f18f32c54094ba132efeada3b, type: 3}
+  - {fileID: 1793413294116751398, guid: ea4a9fde5dee3ab48a3ddad5e2d2a7d0, type: 3}
 --- !u!1 &599710937
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,7 +626,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: -4432526410112080916, guid: 2315cc0495cb2054ea5dd392c1cff51e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
