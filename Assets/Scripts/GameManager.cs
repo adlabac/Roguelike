@@ -38,9 +38,13 @@ public class GameManager : MonoBehaviour
         playerController.Spawn(boardManager, new Vector2Int(1, 1));   // Pozicioniraj lika u sredinu ćelije (1, 1)
     }
 
+    public void ChangeFood(int amount)    // Metoda koja je zadužena za promjenu količine hrane
+    {
+        foodAmount += amount;    // Ažuriraj količinu hrane
+    }
+
     void OnTurn()    // Metoda koju obrađuje OnTick događaj TurnManager metode
     {
-        foodAmount--;    // Umanji koli;inu hrane
-        foodLabel.text = "Hrana: " + foodAmount;    // Prikaži preostalu količinu hrane
+        ChangeFood(-1);    // Umanji količinu hrane za 1
     }
 }
