@@ -51,10 +51,13 @@ public class PlayerController : MonoBehaviour
             if (cellData != null && cellData.passable)    // Da li ćelija postoji i da li se na nju može stati?
             {
                 GameManager.Instance.turnManager.Tick();    // Evidentiraj potez igrača
-                MoveTo(newCell);    // Pozicioniraj igrača u novu ćeliju
-
-                if (cellData.containedObject != null)    // Da li ćelija sadrži neki objekat
+                if (cellData.containedObject == null)    // Da li u ćeliji postoji neki objekat
                 {
+                    MoveTo(newCell);    // Ne - pozicioniraj igrača u novu ćeliju
+                }
+                else if(cellData.containedObject.PlayerWantsToEnter())    // Da li ćelija dozvoljava igraču da uđe
+                {
+                    MoveTo(newCell);    // Pozicioniraj igrača u novu ćeliju
                     cellData.containedObject.PlayerEntered();    // Pozovi metod kako bi se odradio događaj
                 }
             }

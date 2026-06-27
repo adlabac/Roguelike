@@ -15,6 +15,7 @@ public class BoardManager : MonoBehaviour
     public Tile[] groundTiles;    // Sprajtovi pozadine
     public Tile[] wallTiles;    // Sprajtovi zidova
     public FoodObject[] foodPrefabs;    // Prefabi hrane
+    public ObstacleObject obstaclePrefab;    // Prefab prepreke
 
     private Tilemap tilemap;    // Referenca ka tilemapi
     private Grid grid;    // Referenca ka gridu tilemape
@@ -36,6 +37,19 @@ public class BoardManager : MonoBehaviour
         return boardData[cellIndex.x, cellIndex.y];    // Vrati podatke za traženu ćeliju
     }
 
+    public void SetCellTile(Vector2Int cellIndex, Tile tile)    // Metoda koja postavlja/mijenja sprajt za dato polje
+    {
+        tilemap.SetTile(new Vector3Int(cellIndex.x, cellIndex.y, 0), tile);    // Dodijeli sprajt polju na datoj koordinati
+    }
+
+    void AddObject(CellObject obj, Vector2Int coord)    // Metoda za dodavanje novog objekta
+    {
+        CellData data = GetCellData(coord);    // Preuzmi podatke o ćeliji
+        obj.transform.position = CellToWorld(coord);    // Pozicioniraj objekat u sredinu ćelije
+        data.containedObject = obj;    // Dodaj objekat podacima za datu ćeliju
+        obj.Init(coord);    // Inicijalizuj klasu
+    }
+
     void GenerateFood()    // Generisanje i raspoređivanje hrane
     {
         int foodCount = 5;    // Količina hrane koju treba rasporediti
@@ -43,12 +57,25 @@ public class BoardManager : MonoBehaviour
         {
             int randomIndex = Random.Range(0, emptyCells.Count);    // Izaberi slučajno neku od slobodnih ćelija
             Vector2Int coord = emptyCells[randomIndex];    // Uzmi koordinatu iz izabrane ćelije
-            emptyCells.RemoveAt(randomIndex);    // Ukloni izabranu ćeliju iz liste slobodnih
 
-            CellData data = GetCellData(coord);    // Preuzmi podatke o ćeliji
+            emptyCells.RemoveAt(randomIndex);    // Ukloni izabranu ćeliju iz liste slobodnih
             FoodObject newFood = Instantiate(foodPrefabs[Random.Range(0, foodPrefabs.Length)]);    // Kreiraj novi objekat na osnovu slučajno izabranog prefaba
-            newFood.transform.position = CellToWorld(coord);    // Pozicioniraj objekat u sredinu ćelije
-            data.containedObject = newFood;    // Dodaj objekat podacima za datu ćeliju
+
+            AddObject(newFood, coord);    // Dodaj objekat
+        }
+    }
+
+    void GenerateObstacles()    // Generisanje i raspoređivanje prepreka
+    {
+        int obsracleCount = Random.Range(6, 10);    // Broj prepreka koje treba rasporediti
+        for (int i = 0; i < obsracleCount; i++)    // Ponoviti generisanje željeni broj puta
+        {
+            int randomIndex = Random.Range(0, emptyCells.Count);    // Izaberi slučajno neku od slobodnih ćelija
+            Vector2Int coord = emptyCells[randomIndex];    // Uzmi koordinatu iz izabrane ćelije
+
+            emptyCells.RemoveAt(randomIndex);    // Ukloni izabranu ćeliju iz liste slobodnih
+            ObstacleObject newObstacle = Instantiate(obstaclePrefab);    // Kreiraj novu prepreku na osnovu prefaba
+            AddObject(newObstacle, coord);    // Dodaj objekat
         }
     }
 
@@ -78,12 +105,12 @@ public class BoardManager : MonoBehaviour
                     boardData[x, y].passable = true;    // Označi polje kao neprolazno
                     emptyCells.Add(new Vector2Int(x, y));
                 }
-
-                tilemap.SetTile(new Vector3Int(x, y, 0), tile);    // Dodijeli sprajt odgovarajućem polju na koordinati (x, y)
+                SetCellTile(new Vector2Int(x, y), tile);    // Dodijeli sprajt odgovarajućem polju na koordinati (x, y)
             }
         }
 
         emptyCells.Remove(new Vector2Int(1, 1));
+        GenerateObstacles();
         GenerateFood();
     }
 }
